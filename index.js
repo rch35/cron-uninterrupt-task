@@ -9,17 +9,22 @@ const API_ENDPOINT = process.env.API_ENDPOINT || 'https://cloud.blackbox.ai/api/
 async function callAPI() {
   try {
     const now = new Date();
-    const currentHour = now.getHours();
-    const frequency = getFrequency(currentHour);
     
-    console.log(`[${now.toISOString()}] Current hour: ${currentHour}, Frequency: ${frequency}`);
+    console.log(`[${now.toISOString()}] Executing cron`);
     
     const response = await axios.get(API_ENDPOINT, {
       timeout: 30000
     });
     
     console.log(`[${now.toISOString()}] API call successful:`, response.status);
-    console.log('Response data:', response.data);
+    const result = response.data || [];
+
+    console.log("total stalled tasks --> ", result.length)
+    
+    // Iterate through the results and print task IDs
+    for(let i = 0; i < result.length; i++) {
+      console.log(`Task ${i + 1} - TaskId:`, result[i].taskId);
+    }
   } catch (error) {
     console.error(`[${new Date().toISOString()}] API call failed:`, error.message);
     if (error.response) {
