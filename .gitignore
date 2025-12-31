@@ -1,0 +1,72 @@
+.next
+.env
+node_modules
+# Node modules
+node_modules/
+
+# Next.js build output
+.next/
+out/
+.next/cache/
+
+# Production build
+dist/
+build/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# Exception: Allow Next.js API route files in logs directories
+!app/api/**/logs/route.ts
+!app/api/**/logs/*.ts
+
+# Environment variables
+.env
+.env.*.local
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# TypeScript
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Caches
+.cache/
+.parcel-cache/
+.turbo/
+.vercel/
+.vercel_build_output/
+
+# ESLint
+.eslintcache
+
+# Misc
+.DS_Store
+.pnp.*
+package-lock.json
+.pnpm-store
+dev_filipp/**
+.blackboxcli/
+
+# GCP Service Account (IMPORTANT: Keep this private!)
+pivotal-canto-478409-u3-129f9ea88b21.json
+*-service-account.json
+*.json.key
+videos/
+pivotal-purpose-480304-k6-fa9390955e3f.json

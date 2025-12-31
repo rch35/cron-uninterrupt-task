@@ -16,15 +16,15 @@ async function callAPI() {
       timeout: 30000
     });
     
-    console.log(`[${now.toISOString()}] API call successful:`, response.status);
-    const result = response.data || [];
+    console.log(`[${now.toISOString()}] API call successful:`, response);
+    // const result = response.data || [];
 
-    console.log("total stalled tasks --> ", result.length)
+    // console.log("total stalled tasks --> ", result)
     
-    // Iterate through the results and print task IDs
-    for(let i = 0; i < result.length; i++) {
-      console.log(`Task ${i + 1} - TaskId:`, result[i].taskId);
-    }
+    // // Iterate through the results and print task IDs
+    // for(let i = 0; i < result.length; i++) {
+    //   console.log(`Task ${i + 1} - TaskId:`, result[i].taskId);
+    // }
   } catch (error) {
     console.error(`[${new Date().toISOString()}] API call failed:`, error.message);
     if (error.response) {
