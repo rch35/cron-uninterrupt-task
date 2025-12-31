@@ -16,7 +16,7 @@ async function callAPI() {
       timeout: 30000
     });
     
-    console.log(`[${now.toISOString()}] API call successful:`, response);
+    console.log(`[${now.toISOString()}] API call successful:`, response.data);
     // const result = response.data || [];
 
     // console.log("total stalled tasks --> ", result)
