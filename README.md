@@ -51,9 +51,46 @@ docker build -t cron-self-code .
 docker run -e API_ENDPOINT=https://your-api.com/endpoint cron-self-code
 ```
 
-## Deploy to Render
+## Deployment Options
 
-### Steps:
+### Option 1: Deploy to Google Cloud (Recommended)
+
+This project includes an automated deployment script for Google Cloud Platform that sets up:
+- Artifact Registry for Docker images
+- Cloud Run Job for executing the cron task
+- Cloud Scheduler for hourly triggers
+
+**Quick Start:**
+
+#### Using npm scripts (Recommended):
+```bash
+# Deploy with default settings
+npm run deploy
+
+```
+
+#### Using the script directly:
+```bash
+# Make the script executable (first time only)
+chmod +x deploy.sh
+
+# Deploy with defaults
+./deploy.sh
+
+# Or deploy with custom configuration
+GCP_PROJECT_ID=my-project API_ENDPOINT=https://api.example.com/cron ./deploy.sh
+```
+
+#### Using environment variables from .env file:
+1. Copy `.env.example` to `.env`
+2. Update the values in `.env` with your configuration
+3. Run: `npm run deploy`
+
+**See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions and configuration options.**
+
+### Option 2: Deploy to Render
+
+#### Steps:
 
 1. **Create a new Web Service** on Render
 2. **Connect your Git repository**
@@ -68,7 +105,7 @@ docker run -e API_ENDPOINT=https://your-api.com/endpoint cron-self-code
 
 5. **Deploy**
 
-### Important Notes for Render:
+#### Important Notes for Render:
 
 - Render will automatically detect the Dockerfile and build the image
 - The application runs continuously and executes the API call every hour
@@ -109,6 +146,28 @@ The application logs:
 - API response status and data
 - Any errors that occur
 
+## Deployment Management
+
+### Google Cloud Commands
+
+After deploying to Google Cloud, you can manage your deployment with these commands:
+
+```bash
+# Execute the job immediately
+gcloud run jobs execute cron-uninterrupt-task --region=us-central1
+
+# View job logs
+gcloud logging read "resource.type=cloud_run_job AND resource.labels.job_name=cron-uninterrupt-task" --limit=50
+
+# View scheduler status
+gcloud scheduler jobs describe cron-uninterrupt-task-hourly --location=us-central1
+
+# Trigger scheduler manually
+gcloud scheduler jobs run cron-uninterrupt-task-hourly --location=us-central1
+```
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for more management commands and troubleshooting tips.
+
 ## Graceful Shutdown
 
-The application handles SIGTERM and SIGINT signals for graceful shutdown, which is important for container orchestration platforms like Render.
+The application handles SIGTERM and SIGINT signals for graceful shutdown, which is important for container orchestration platforms like Render and Cloud Run.
