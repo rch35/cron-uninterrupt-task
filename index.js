@@ -34,13 +34,18 @@ async function callAPI() {
   }
 }
 
-// Call immediately on startup for testing
-console.log('Cron job scheduler started');
-console.log('Job will run at the start of every hour (0 * * * *)');
-console.log('Running initial API call...');
-callAPI();
+// Main execution function
+async function main() {
+  console.log('Cloud Run Job started');
+  console.log('Executing API call...');
+  
+  await callAPI();
+  
+  console.log('Job completed successfully');
+  process.exit(0);
+}
 
-// Keep the process running
+// Handle signals for graceful shutdown
 process.on('SIGTERM', () => {
   console.log('SIGTERM received, shutting down gracefully');
   process.exit(0);
@@ -49,4 +54,10 @@ process.on('SIGTERM', () => {
 process.on('SIGINT', () => {
   console.log('SIGINT received, shutting down gracefully');
   process.exit(0);
+});
+
+// Run the main function
+main().catch((error) => {
+  console.error('Fatal error:', error);
+  process.exit(1);
 });
